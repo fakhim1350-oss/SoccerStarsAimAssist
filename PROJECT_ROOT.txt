@@ -1,2 +1,0 @@
-FINAL Soccer Stars Aim Assist project root.
-The GitHub Actions workflow builds directly from this folder; no ZIP extraction step is required.
