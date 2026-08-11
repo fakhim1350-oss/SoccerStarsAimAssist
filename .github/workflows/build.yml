@@ -2,9 +2,9 @@ name: Build Soccer Stars Aim Assist
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,37 +14,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Set up Java
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK
-        run: |
-          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
-
-      - name: Setup Gradle
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.2'
-
-      - name: Extract project
-        run: |
-          mkdir project
-          unzip -q SoccerStarsAimAssist_BuildReady.zip -d project
 
       - name: Build APK
-        working-directory: project
-        run: |
-          gradle :app:assembleDebug --stacktrace
+        run: gradle :app:assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: SoccerStarsAimAssist-debug
-          path: project/app/build/outputs/apk/debug/app-debug.apk
+          name: SoccerStarsAimAssist-final-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
