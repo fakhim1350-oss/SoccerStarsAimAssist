@@ -1,0 +1,1 @@
+Clean Android visual overlay project. No automated game input.
